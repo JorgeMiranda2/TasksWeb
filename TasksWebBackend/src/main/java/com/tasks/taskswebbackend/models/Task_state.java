@@ -1,9 +1,16 @@
 package com.tasks.taskswebbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
+@ToString(exclude="tasks")
 @Entity
 @Table(name="task_state")
 public class Task_state {
@@ -19,6 +26,8 @@ public class Task_state {
 
     //Relations
 
+    @OneToMany(mappedBy = "taskState")
+    private Set<Task> tasks = new HashSet<>();
 
     //Constructors
     public Task_state(){}

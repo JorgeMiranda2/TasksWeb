@@ -1,12 +1,17 @@
 package com.tasks.taskswebbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.ToString;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 @Data
+@ToString(exclude = "tasks")
 @Entity
 @Table(name="tag")
 public class Tag {
@@ -23,19 +28,19 @@ public class Tag {
     //Relations
     @ManyToOne
     @JoinColumn(name="state_id")
-    private State state_id;
+    private State stateTag;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private Set<Task_tag> task_tags = new HashSet<>();
 
+    @ManyToMany(mappedBy = "tags")
+    private Set<Task> tasks= new HashSet<>();
     //Constructors
     public Tag(){}
 
-    public Tag(Long id, String name, String description, State state_id) {
+    public Tag(Long id, String name, String description, State stateTag) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.state_id = state_id;
+        this.stateTag = stateTag;
     }
 
     //Getters and Setters -> using Lombok

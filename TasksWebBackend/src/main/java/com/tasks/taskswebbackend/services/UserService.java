@@ -11,28 +11,31 @@ import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
-    private  IUserRepo repo;
+    private  final IUserRepo userRepo;
 
     @Autowired
-    public UserService(IUserRepo repo) {
-        this.repo = repo;
+    public UserService(IUserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
     @Override
     public List<User> list(){
-        return null;
+        List<User> users;
+        users = userRepo.findAll();
+        return users;
     }
     @Override
-    public Optional<User> listById(Long id){
-        return null;
+    public Optional<User> getUserId(Long id){
+        return userRepo.findById(id);
     }
     @Override
-    public int save(User user){
-        return 0;
+    public Long save(User user){
+        User savedUser = userRepo.save(user);
+        return savedUser.getId();
     }
     @Override
-    public void delete(Long Id){
-
+    public void delete(User user){
+    userRepo.delete(user);
     }
 
 }

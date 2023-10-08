@@ -1,7 +1,12 @@
 package com.tasks.taskswebbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -18,6 +23,7 @@ public class State {
     private String description;
 
     //Relations
+
 
     //Constructors
     public State(){}
