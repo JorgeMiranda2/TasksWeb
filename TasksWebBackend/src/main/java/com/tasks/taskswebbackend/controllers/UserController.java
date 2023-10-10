@@ -1,24 +1,19 @@
 package com.tasks.taskswebbackend.controllers;
 
 import com.tasks.taskswebbackend.models.Profile;
+import com.tasks.taskswebbackend.models.Task;
 import com.tasks.taskswebbackend.models.User;
-import com.tasks.taskswebbackend.repositories.IUserRepo;
 import com.tasks.taskswebbackend.services.UserService;
-import jakarta.persistence.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,6 +67,16 @@ public class UserController {
         return userObtained.map(user -> ResponseEntity.status(HttpStatus.OK).body(user))
                                     .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
 
+    }
+
+    @GetMapping("/user/{id}/tasks")
+    public ResponseEntity<Collection<Task>> listUserTasksById(@PathVariable Long id){
+        System.out.println("Getting User tasks by user id");
+        Optional<User> userObtained = userService.getUserId(id);
+        if(userObtained.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userObtained.get().getTasks());
     }
 
 

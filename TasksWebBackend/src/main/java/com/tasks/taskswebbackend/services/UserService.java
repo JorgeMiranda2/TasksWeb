@@ -35,7 +35,7 @@ public class UserService implements IUserService {
     }
     @Override
     public void delete(User user){
-    userRepo.delete(user);
+        userRepo.delete(user);
     }
 
 }

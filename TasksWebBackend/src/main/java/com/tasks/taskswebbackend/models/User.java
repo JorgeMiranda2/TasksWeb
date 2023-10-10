@@ -35,76 +35,19 @@ public class User {
     private String email;
 
     //Relations and constrains
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @JoinColumn(name="profile_id",referencedColumnName = "id")
-    @ColumnDefault("1")
+    @ManyToOne
+    @JoinColumn(name="profile_id")
     private Profile profile;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private Set<Task> tasks = new HashSet<Task>();
+    private List<Task> tasks;
 
 
     //Constructors
     public User(){}
 
-    public User(Long id, String name, String lastName, String userName, String email, Profile profile) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.email = email;
-        this.profile = profile;
-    }
+
 
     //Getters and Setters
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastname) {
-        this.lastName = lastname;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String user_name) {
-        this.userName = user_name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
 }
