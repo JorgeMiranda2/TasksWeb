@@ -9,7 +9,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +22,7 @@ import java.util.Set;
 @ToString(exclude="tasks")
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
 
     //Fields
     @Id
@@ -31,6 +35,8 @@ public class User {
     private String lastName;
     @Column(name="user_name",nullable = false, unique = true, length=16)
     private String userName;
+    @Column(name="password",nullable = false, length=64)
+    private String password;
     @Column(name="email",nullable = false, unique = true, length=50)
     private String email;
 
@@ -46,6 +52,40 @@ public class User {
     //Constructors
     public User(){}
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority((profile.getRole())));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 
     //Getters and Setters
