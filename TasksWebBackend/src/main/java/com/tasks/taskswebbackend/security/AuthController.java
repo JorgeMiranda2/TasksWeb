@@ -1,11 +1,9 @@
 package com.tasks.taskswebbackend.security;
 
-import com.tasks.taskswebbackend.models.User;
 import com.tasks.taskswebbackend.security.dtos.DtoLogin;
 import com.tasks.taskswebbackend.security.dtos.DtoRegister;
-import com.tasks.taskswebbackend.security.dtos.DtoResponse;
+import com.tasks.taskswebbackend.security.dtos.DtoResponseLogin;
 import com.tasks.taskswebbackend.services.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,17 +26,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<DtoResponse> login(@Valid @RequestBody DtoLogin dtoLogin){
+    public ResponseEntity<DtoResponseLogin> login(@Valid @RequestBody DtoLogin dtoLogin){
 
-        DtoResponse response = authService.login(dtoLogin);
+        DtoResponseLogin response = authService.login(dtoLogin);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<DtoResponse> register(@Valid @RequestBody DtoRegister dtoRegister){
+    public ResponseEntity<DtoResponseLogin> register(@Valid @RequestBody DtoRegister dtoRegister){
 
 
-        DtoResponse response = authService.register(dtoRegister);
+        DtoResponseLogin response = authService.register(dtoRegister);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -6,9 +6,8 @@ import com.tasks.taskswebbackend.models.User;
 import com.tasks.taskswebbackend.repositories.IUserRepo;
 import com.tasks.taskswebbackend.security.dtos.DtoLogin;
 import com.tasks.taskswebbackend.security.dtos.DtoRegister;
-import com.tasks.taskswebbackend.security.dtos.DtoResponse;
+import com.tasks.taskswebbackend.security.dtos.DtoResponseLogin;
 import com.tasks.taskswebbackend.services.UserService;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,14 +32,15 @@ public class AuthService {
     private IUserRepo userRepo;
 
 
-    public DtoResponse login(DtoLogin dtoLogin){
+    public DtoResponseLogin login(DtoLogin dtoLogin){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dtoLogin.getUserName(),dtoLogin.getPassword()));
         UserDetails user = userRepo.findByUserName(dtoLogin.getUserName()).orElseThrow();
         String token = jwtService.getToken(user);
-        return DtoResponse.builder().token(token).build();
+        String userName = user.getUsername();
+        return DtoResponseLogin.builder().token(token).userName(userName).build();
     }
 
-    public DtoResponse register(DtoRegister dtoRegister){
+    public DtoResponseLogin register(DtoRegister dtoRegister){
         User user = new User();
         user.setProfile(new Profile());
         user.setUserName(dtoRegister.getUserName());
@@ -51,7 +51,7 @@ public class AuthService {
         user.getProfile().setId(1L);
         userService.save(user);
 
-        return DtoResponse.builder()
+        return DtoResponseLogin.builder()
                 .token(jwtService.getToken(user))
                 .build();
     }
