@@ -1,11 +1,18 @@
 import * as React from "react";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import MyTasks from "../Components/common/MyTasks";
+
 
 const HomePage = () => {
+
+const AddTask = () => {
+    pass
+}
     return ( 
+        <Box>
 
-        <Button></Button>
-
+        <MyTasks/>
+        </Box>
      );
 }
  

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,10 +31,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String userName;
+        System.out.println("token response: " + response.getHeader(HttpHeaders.AUTHORIZATION));
+        System.out.println("token request:" + request.getHeader(HttpHeaders.AUTHORIZATION));
         final String token = getTokenFromRequest(request);
+
 
         if (token == null) {
             filterChain.doFilter(request, response);
+            System.out.println("not token");
             return;
         }
         userName = jwtService.getUsernameFromToken(token);
@@ -44,16 +49,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                System.out.println("token no valid");
             }
         }
         filterChain.doFilter(request, response);
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+
         if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7);
         }
+
         return null;
+    }
+
+    protected Authentication getRoles() {
+            return SecurityContextHolder.getContext().getAuthentication();
     }
 }

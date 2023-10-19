@@ -1,14 +1,16 @@
 package com.tasks.taskswebbackend.controllers;
 
-import com.tasks.taskswebbackend.models.Profile;
+import com.tasks.taskswebbackend.dtos.DtoTask;
 import com.tasks.taskswebbackend.models.Tag;
-import com.tasks.taskswebbackend.models.Task;
 import com.tasks.taskswebbackend.models.Task;
 import com.tasks.taskswebbackend.services.TagService;
 import com.tasks.taskswebbackend.services.TaskService;
+import com.tasks.taskswebbackend.services.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,6 +20,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -27,11 +30,13 @@ public class TaskController {
     //Revisar si hay otro metodo del repo para detectar si existe un registro con ese id que no devuelva el registro, solo un true o false
     private final TaskService taskService;
     private final TagService tagService;
+    private final UserService userService;
 
 
-    public TaskController(TaskService taskService, TagService tagService) {
+    public TaskController(TaskService taskService, TagService tagService, UserService userService) {
         this.taskService = taskService;
         this.tagService = tagService;
+        this.userService = userService;
     }
 
     @PostMapping("/task")
@@ -50,9 +55,10 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("Task created in: " + location);
     }
 
+    //Adding a tag in a task
     @PutMapping("/task/{taskId}/tag/{tagId}")
     public ResponseEntity<String> addTagToTask(@PathVariable Long taskId, @PathVariable Long tagId){
-        System.out.println("Getting a post request to task");
+        System.out.println("Getting a put request to task");
 
         Optional<Task> taskSaved = taskService.getTaskId(taskId);
         Optional<Tag> tagSaved = tagService.getTagId(tagId);
@@ -99,7 +105,23 @@ public class TaskController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(taskObtained.get().getTags());
     }
+    @GetMapping("/mytasks")
+    public ResponseEntity<List<DtoTask>> listUserTasks(){
+        System.out.println("Getting Task by token");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        Optional<Long> userId = userService.getUserIdFromUserName(userName);
+        System.out.println(userId.get());
+        List<Task> tasksList = taskService.getTasksByUserId(userId.get());
+        List<DtoTask> dtoTasksList = tasksList.stream().map((task) -> {
+            return new DtoTask(task);
+        }).collect(Collectors.toList());
 
+        System.out.println(dtoTasksList);
+
+        // con el username obtener el id del registro -> con el id obtener sus tasks
+        return ResponseEntity.status(HttpStatus.OK).body(dtoTasksList);
+    }
 
 
     @PutMapping("/task/{id}")

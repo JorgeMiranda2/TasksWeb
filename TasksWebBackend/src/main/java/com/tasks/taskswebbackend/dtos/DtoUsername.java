@@ -1,4 +1,4 @@
-package com.tasks.taskswebbackend.security.dtos;
+package com.tasks.taskswebbackend.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtoResponseLogin {
-    String token;
+public class DtoUsername {
     String userName;
 }

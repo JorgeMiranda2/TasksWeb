@@ -13,5 +13,6 @@ public interface IUserService {
     public Optional<User> getUserId(Long id);
     public Long save(User user);
     public void delete(User user);
+    public Optional<Long> getUserIdFromUserName(String userName);
 
 }

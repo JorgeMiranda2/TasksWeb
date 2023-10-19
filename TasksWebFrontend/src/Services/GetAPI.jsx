@@ -1,16 +1,19 @@
 import axios from "axios";
 
 const GetAPI = async (url) => {
-    let config = {};
+    let config = {
+    };
     const StringUserSession = window.localStorage.getItem("userSession");
+
     if(StringUserSession){
         const user = JSON.parse(StringUserSession);
+   
         config = {
             headers:{
                 Authorization:`Bearer ${user?.token}`
             }
         }
-      
+
     
     }
 

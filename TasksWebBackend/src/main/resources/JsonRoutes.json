@@ -1,0 +1,14 @@
+[
+  {
+    "method": "GET",
+    "route": "/api/user",
+    "roles": ["admin"]
+  },
+  {
+    "method": "GET",
+    "route": "/api/mytasks",
+    "roles": ["admin","user"]
+  }
+
+
+]

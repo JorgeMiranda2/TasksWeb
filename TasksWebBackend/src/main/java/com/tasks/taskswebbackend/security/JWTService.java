@@ -50,7 +50,8 @@ public class JWTService {
         final String userName = getUsernameFromToken(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-    private Claims getAllClaims(String token){
+    public Claims getAllClaims(String token){
+        System.out.println("claims: "+ Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody());
         return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
     }
 

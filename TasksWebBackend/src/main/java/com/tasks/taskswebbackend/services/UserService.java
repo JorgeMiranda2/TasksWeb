@@ -38,4 +38,10 @@ public class UserService implements IUserService {
         userRepo.delete(user);
     }
 
+    @Override
+    public Optional<Long> getUserIdFromUserName(String userName){
+        Optional<Long> id = userRepo.getUserIdFromUserName(userName);
+        return id;
+    }
+
 }
