@@ -46,6 +46,10 @@ public class JWTService {
         return getClaim(token, Claims::getSubject);
     }
 
+    public <T> T getClaim(String token, Function<Claims,T> claimsTFunction){
+        final Claims claims = getAllClaims(token);
+        return claimsTFunction.apply(claims);
+    }
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = getUsernameFromToken(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
@@ -55,10 +59,6 @@ public class JWTService {
         return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
     }
 
-    public <T> T getClaim(String token, Function<Claims,T> claimsTFunction){
-    final Claims claims = getAllClaims(token);
-    return claimsTFunction.apply(claims);
-    }
 
     private Date getExpiration(String token){
         return  getClaim(token, Claims::getExpiration);

@@ -79,4 +79,8 @@ public class AuthService {
     public Claims getClaims(String token){
         return jwtService.getAllClaims(token);
     }
+
+    public boolean validateToken(String token){
+        return jwtService.isTokenValid(token, null);
+    }
 }

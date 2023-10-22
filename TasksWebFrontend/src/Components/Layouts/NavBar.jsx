@@ -14,32 +14,18 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Button, Link } from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
-
+import { useDispatch,useSelector } from 'react-redux';
+import {login,logout} from '../../redux/AuthSlice';
 
 const NavBar = () => {
+  const dispatch = useDispatch();
+  const {auth, username, token} = useSelector(state => state.auth);
 
-    const [auth, setAuth] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [userName, setUserName] = useState(null);
 
-    useEffect(()=>{
-
-      console.log("userSession use")
-    let userSession = window.localStorage.getItem("userSession");
-    if(userSession){
-      userSession = JSON.parse(userSession);
-      setUserName(userSession?.userName);
-      setAuth(true);
-    }
-    },[])
-
-    const handleChange = (event) => {
-      setAuth(event.target.checked);
-    };
 
     const handleLogout = () =>{
-      window.localStorage.removeItem("userSession");
-      setAuth(false);
+     dispatch(logout())
     }
   
     const handleMenu = (event) => {
@@ -89,7 +75,7 @@ const NavBar = () => {
                   onClick={handleMenu}
                   color="inherit"
                 >
-                  <Typography>{userName}</Typography>
+                  <Typography>{username}</Typography>
                   <AccountCircle />
                 </IconButton>
                 <Menu

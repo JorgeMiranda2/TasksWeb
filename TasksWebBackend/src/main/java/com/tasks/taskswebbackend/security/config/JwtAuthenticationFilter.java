@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,6 +36,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("token request:" + request.getHeader(HttpHeaders.AUTHORIZATION));
         final String token = getTokenFromRequest(request);
 
+
+
+        String requestUri = request.getRequestURI();
+
+
+        AntPathRequestMatcher matcher = new AntPathRequestMatcher("/auth/**");
+        if (matcher.matches(request)) {
+            // Si la URL coincide con una ruta no protegida, simplemente sigue adelante
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (token == null) {
             filterChain.doFilter(request, response);

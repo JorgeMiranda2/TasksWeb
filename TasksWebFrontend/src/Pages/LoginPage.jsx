@@ -16,8 +16,11 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import PostAPI from '../Services/PostAPI';
 import { BACKEND_PATH } from '../Config/Constants';
+import { useSelector } from 'react-redux';
+
 
 function LoginPage() {
+  const {auth} = useSelector(state => state.auth);
   const defaultTheme = createTheme();
 
   const validationSchema = yup.object({
@@ -46,7 +49,10 @@ function LoginPage() {
     },
   });
 
-  return (
+  if(auth)
+   window.location.href = "/";
+  else
+  return(
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />

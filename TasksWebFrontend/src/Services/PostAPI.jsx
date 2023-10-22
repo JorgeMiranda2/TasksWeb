@@ -20,9 +20,7 @@ const PostAPI = async (url , info) => {
    
         return response.data;
     } catch (error){
-        console.log("error: " + error.message);
-        window.localStorage.removeItem("userSession");
-   
+        console.log("error: " + error.message);   
         return null;
     }
    
