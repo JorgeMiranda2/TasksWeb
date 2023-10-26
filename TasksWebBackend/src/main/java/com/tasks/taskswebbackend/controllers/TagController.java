@@ -1,5 +1,6 @@
 package com.tasks.taskswebbackend.controllers;
 
+import com.tasks.taskswebbackend.dtos.DtoTag;
 import com.tasks.taskswebbackend.models.Tag;
 import com.tasks.taskswebbackend.services.TagService;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -55,6 +57,23 @@ public class TagController {
         System.out.println(tags);
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(tags);
+    }
+
+    @GetMapping("/tagsname")
+    public ResponseEntity<Collection<DtoTag>> listDtoTags(){
+        System.out.println("Getting a get request to tag");
+
+
+        //Getting all tags by service
+        Collection<Tag> tags = tagService.list();
+        Collection<DtoTag> dtoTags = tags.stream().filter((tag)->{
+            return tag.getState().getId() == 1L ;
+        }).map((filterTag)->{
+            return new DtoTag(filterTag.getName(),filterTag.getDescription());
+        }).collect(Collectors.toList());
+        System.out.println(tags);
+
+        return ResponseEntity.status(HttpStatus.OK).body(dtoTags);
     }
 
     @GetMapping("/tag/{id}")

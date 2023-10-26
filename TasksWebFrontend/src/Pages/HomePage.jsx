@@ -8,12 +8,12 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const {auth} = useSelector(state => state.auth);
 const AddTask = () => {
-    pass
+    prompt("xd")
 }
     return ( 
         <Box>
          {auth &&  <MyTasks/> }
-      
+ 
         </Box>
      );
 }

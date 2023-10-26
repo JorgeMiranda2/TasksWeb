@@ -29,8 +29,6 @@ function App() {
     if(userSession && JSON.parse(userSession).token){
       const token =  JSON.parse(userSession).token;
       const username =  JSON.parse(userSession).userName;
-
-
       PostAPI(BACKEND_PATH + "/auth/validatetoken", {token:token}).then(
         (data) => {
           console.log(data,token);
@@ -54,6 +52,7 @@ function App() {
   return (
     <>
   <NavBar/>
+  
   <RouterProvider router={router} />
     </>
   )

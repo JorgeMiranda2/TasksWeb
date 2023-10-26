@@ -4,20 +4,21 @@ import { useSearchParams } from "react-router-dom";
 import GetAPI from "../../Services/GetAPI";
 import { BACKEND_PATH } from "../../Config/Constants";
 import AddTaskModal from "./AddTaskModal";
+import useTags from "../Hooks/useTags";
+import useTasks from "../Hooks/useTasks";
 
 
 const MyTasks = () => {
 
-    const [tasks, setTasks] = useState([]);
+  const {getTasks, tasks} = useTasks();
+
     const [openModal, setOpenModal] = useState(false);
 
+
+
+
     useEffect(()=>{
-        GetAPI(BACKEND_PATH + "/api/mytasks").then((response) => {
-            if(response){
-                console.log(response)
-            setTasks(response)
-            }
-        })
+      getTasks()
     },[])
 
     const handleOpenModal = () => {
@@ -63,12 +64,12 @@ const MyTasks = () => {
                 {task.title}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {task.taskStateName}
+                {task.state}
               </Typography>
               <Typography variant="body2">
-                Start Date: {convertDate(task.startDate)}
+                Start Date: {convertDate(task.start)}
                 <br />
-                End Date: {convertDate(task.endDate)}
+                End Date: {convertDate(task.end)}
                 <br />
                 Description: {task.description}
               </Typography>
@@ -92,6 +93,8 @@ const MyTasks = () => {
               margin: '8px',
             }}>add task</Button>
       </Box>
+      <Typography variant="h2">Tags:</Typography>
+    
       </Box>
      );
 }
