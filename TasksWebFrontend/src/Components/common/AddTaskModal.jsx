@@ -2,31 +2,57 @@ import { Box, Button } from "@mui/material";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useTags from "../Hooks/useTags";
-import { useEffect } from "react";
-const AddTaskModal = () => {
-const {tags, getTags} = useTags();
+import "../../Css/Components/AddTaskModal.css";
+import useTaskStates from "../Hooks/useTaskStates";
+import { useEffect, useState } from "react";
+import useTasks from "../Hooks/useTasks";
 
-    
+
+const AddTaskModal = ( {handleCloseModal , updateTasks}) => {
+
+//Custom Hooks
+const {tags, getTags} = useTags();
+const {taskStates, getTaskStates} = useTaskStates();
+const {sendTask} = useTasks();
+
+//Hooks
+const [tagsToAdd, setTagsToAdd] = useState([]);
+
+//UseEffects
+
 useEffect(()=>{
   getTags();
+  getTaskStates()
 },[])
+    
+const handleAddTag = (tag) => {
+setTagsToAdd([...tagsToAdd, tag]);
+console.log(tagsToAdd);
+}
 
 const formik = useFormik({
     initialValues: {
       startDateTime: '',
       endDateTime: '',
       title:'',
-      description:''
+      description:'',
+      taskState:'',
+      tags:tagsToAdd,
+
     },
     validationSchema: Yup.object({
       startDateTime: Yup.date().required('Date is obligatory'),
       endDateTime: Yup.date().required('Date is obligatory'),
       title:Yup.string().required('title is obligatory'),
       description:Yup.string().required('title is obligatory'),
+      tags: Yup.array(),
     }),
-    onSubmit: (values) => {
-      // Aquí puedes manejar la acción después de enviar el formulario
-      console.log('Fecha y hora seleccionadas:', values.startDateTime);
+    onSubmit: async (values) => {
+      await sendTask(values);
+      await updateTasks();
+  
+     handleCloseModal();
+
     },
   });
 
@@ -43,14 +69,10 @@ const formik = useFormik({
         borderRadius: '8px',
         boxShadow: 24,
         p: 4,
-        textAlign: 'center',
-        display:"flex",
-        alignItems:"center",
-        justifyContent:"center",
-        verticalAlign:"middle"
+      
       }} >
-    <form onSubmit={formik.handleSubmit} >
-
+    <form className="taskForm" onSubmit={formik.handleSubmit} >
+<label>Title:</label>
       <input type="text" style={{width:"50%"}}name="title" id="title" placeholder="Do Something" 
       value={formik.values.title}
           onChange={formik.handleChange}
@@ -59,6 +81,9 @@ const formik = useFormik({
           <label style={{ color: 'red' }}>title error</label>
         ) : null}
 
+<label>
+  Description:
+  </label>
           <textarea type="" style={{width:"50%"}} name="description" id="description" placeholder="I have to..." 
       value={formik.values.description}
           onChange={formik.handleChange}
@@ -67,6 +92,9 @@ const formik = useFormik({
       {formik.touched.description && formik.errors.description ? (
           <label style={{ color: 'red' }}>description error</label>
         ) : null}
+
+    <div className="dates">
+    <label>Start: </label>
         <input
           type="datetime-local"
           id="startDateTime"
@@ -75,13 +103,13 @@ const formik = useFormik({
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-  <div style={{ height: '20px' }}>
-        {formik.touched.startDateTime && formik.errors.startDateTime ? (
-          <label style={{ color: 'red' }}>Date error</label>
+
+           {formik.touched.startDateTime && formik.errors.startDateTime ? (
+          <label className="error" style={{ color: 'red' }}>Date error</label>
         ) : null}
-      </div>
+    
 
-
+<label>End: </label>
       <input
           type="datetime-local"
           id="endDateTime"
@@ -90,22 +118,43 @@ const formik = useFormik({
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-  <div style={{ height: '20px' }}>
+        
         {formik.touched.endDateTime && formik.errors.endDateTime ? (
-          <label style={{ color: 'red' }}>Date error</label>
+          <label className="error" style={{ color: 'red' }}>Date error</label>
         ) : null}
 
-      </div>
+     
+        </div>
+     
+      <label>Task state: </label>
+        <select name="taskState" id="taskState">
+         {taskStates.map((taskState)=>{
+          return <option key={taskState.id} title={taskState.description} value="xd">{taskState.name}</option>
+         })}
+        </select>
+        {formik.touched.taskState && formik.errors.taskState ? (
+          <label className="error" style={{ color: 'red' }}>state error</label>
+        ) : null}
 
-
-        <ul >
+       
+        <label>Tags: </label>
+        <select name="tags"  id="tags">
         {tags.map((tag)=>{
           return (
-            <li style= {{color:"black"}} key={tag.id} title={tag.description}>{tag.title}</li>
+           <option  value={tag.title} 
+           style= {{color:"black"}} 
+           key={tag.id} 
+           title={tag.description}
+           >
+            {tag.title}
+            </option>
          
           )
         })}
-      </ul>
+      </select>
+      {formik.touched.tags && formik.errors.tags ? (
+          <label className="error" style={{ color: 'red' }}>state error</label>
+        ) : null}
 
 
 <Button type="submit"> Add New Task</Button>

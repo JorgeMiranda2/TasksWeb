@@ -51,16 +51,15 @@ public class SecurityConfig {
                             corsConfig.setMaxAge(3600L);
                             return corsConfig;
                         }))
-                .authorizeHttpRequests(authRequest-> {
-                authRequest
-                        .requestMatchers("/auth/**").permitAll();
-                        for (RouteModel routeModel : routes) {
-                            for (String role : routeModel.getRoles()) {
-                                authRequest
-                                        .requestMatchers(HttpMethod.valueOf(routeModel.getMethod()), routeModel.getRoute())
-                                        .hasAnyAuthority(role);
-                            }
-                        }
+                .authorizeHttpRequests(authRequest -> {
+                    authRequest
+                            .requestMatchers("/auth/**").permitAll();
+                    for (RouteModel routeModel : routes) {
+                        String[] roles = routeModel.getRoles().toArray(new String[0]);
+                        authRequest
+                                .requestMatchers(HttpMethod.valueOf(routeModel.getMethod()), routeModel.getRoute())
+                                .hasAnyAuthority(roles);
+                    }
                     authRequest.anyRequest().authenticated();
                 }).sessionManagement(sessionManager->
                         sessionManager

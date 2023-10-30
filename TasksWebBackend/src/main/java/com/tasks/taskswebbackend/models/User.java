@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
@@ -50,8 +51,10 @@ public class User implements UserDetails {
 
 
     //Constructors
-    public User(){}
-
+public User(){}
+public User(Long id){
+    this.id = id;
+}
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority((profile.getRole())));

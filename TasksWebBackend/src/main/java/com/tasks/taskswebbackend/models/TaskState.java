@@ -2,6 +2,7 @@ package com.tasks.taskswebbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -31,6 +32,9 @@ public class TaskState {
 
     //Constructors
     public TaskState(){}
+    public TaskState(Long id){
+        this.id = id;
+    }
 
     public TaskState(Long id, String name, String description) {
         this.id = id;

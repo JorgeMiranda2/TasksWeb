@@ -38,26 +38,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
 
-        String requestUri = request.getRequestURI();
-
-
         AntPathRequestMatcher matcher = new AntPathRequestMatcher("/auth/**");
-        if (matcher.matches(request)) {
-            // Si la URL coincide con una ruta no protegida, simplemente sigue adelante
-            filterChain.doFilter(request, response);
-            return;
-        }
 
-        if (token == null) {
+
+        if (token == null || matcher.matches(request)) {
             filterChain.doFilter(request, response);
-            System.out.println("not token");
+            System.out.println("not validation");
             return;
         }
         userName = jwtService.getUsernameFromToken(token);
+        System.out.println("username: " + userName);
 
         if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails =  userDetailsService.loadUserByUsername(userName);
             if(jwtService.isTokenValid(token,userDetails)){
+                System.out.println("is token valid");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

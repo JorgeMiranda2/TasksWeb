@@ -1,0 +1,30 @@
+.dates{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+
+}
+
+label{
+    display: block;
+    text-align: center;
+    align-self: center;
+}
+.error{
+    display: block;
+}
+
+
+textarea{
+    margin-bottom: 10px;
+}
+.taskForm{
+    display: flex;
+    color: black;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+}

@@ -2,14 +2,14 @@ package com.tasks.taskswebbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tasks.taskswebbackend.dtos.DtoTask;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 @Data
 @Entity
@@ -54,6 +54,18 @@ public class Task {
 
     //Constructors
     public Task(){}
+
+    public Task(DtoTask dtoTask, Long id){
+        this.user = new User(id);
+        this.title = dtoTask.getTitle();
+        this.description = dtoTask.getDescription();
+        this.startDate = dtoTask.getStartDate();
+        this.endDate = dtoTask.getEndDate();
+        this.state = new State(1L);
+        this.taskState = new TaskState(1L);
+        this.tags = new ArrayList<>();
+
+    }
 
     public Task(Long id, String title, String description, Date startDate, Date endDate, State state) {
         this.id = id;

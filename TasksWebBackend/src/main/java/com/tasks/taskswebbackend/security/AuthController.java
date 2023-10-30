@@ -1,15 +1,24 @@
 package com.tasks.taskswebbackend.security;
 
 import com.tasks.taskswebbackend.dtos.*;
+import com.tasks.taskswebbackend.models.*;
+import com.tasks.taskswebbackend.services.TagService;
+import com.tasks.taskswebbackend.services.TaskService;
 import com.tasks.taskswebbackend.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,7 +28,12 @@ public class AuthController {
     private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
 
-
+    @Autowired
+    private  TaskService taskService;
+    @Autowired
+    private  TagService tagService;
+    @Autowired
+    private  UserService userService;
     public AuthController(AuthService authService, UserService userService, JWTService jwtService,UserDetailsService userDetailsService ){
         this.authService = authService;
         this.jwtService = jwtService;
@@ -54,6 +68,7 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.OK).body(dtoValidateToken);
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<DtoResponseLogin> register(@Valid @RequestBody DtoRegister dtoRegister){

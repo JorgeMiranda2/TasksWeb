@@ -3,6 +3,7 @@ package com.tasks.taskswebbackend.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@Builder
 @Table(name="state")
 public class State {
     //Fields
@@ -27,6 +29,9 @@ public class State {
 
     //Constructors
     public State(){}
+    public State(Long id){
+        this.id = id;
+    }
 
     public State(Long id, String name, String description) {
         this.id = id;

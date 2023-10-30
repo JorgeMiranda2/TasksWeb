@@ -14,12 +14,15 @@ const MyTasks = () => {
 
     const [openModal, setOpenModal] = useState(false);
 
+  useEffect(()=>{
+    getTasks();
+  },[])
 
+  const updateTasks = async  () => {
+    console.log("doing updateTasks")
+     await getTasks();
+  };
 
-
-    useEffect(()=>{
-      getTasks()
-    },[])
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -44,7 +47,7 @@ const MyTasks = () => {
   aria-labelledby="modal-modal-title"
   aria-describedby="modal-modal-description"
 >
-  <AddTaskModal/>
+  <AddTaskModal updateTasks={updateTasks} handleCloseModal={handleCloseModal}/>
 </Modal>
         <h2  style = {{margin:"8px"}}>My tasks:</h2>
         <Box display="flex" flexWrap="wrap">

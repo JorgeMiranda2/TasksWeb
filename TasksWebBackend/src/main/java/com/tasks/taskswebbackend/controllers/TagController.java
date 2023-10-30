@@ -59,7 +59,7 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(tags);
     }
 
-    @GetMapping("/tagsname")
+    @GetMapping("/tags")
     public ResponseEntity<Collection<DtoTag>> listDtoTags(){
         System.out.println("Getting a get request to tag");
 
@@ -69,7 +69,7 @@ public class TagController {
         Collection<DtoTag> dtoTags = tags.stream().filter((tag)->{
             return tag.getState().getId() == 1L ;
         }).map((filterTag)->{
-            return new DtoTag(filterTag.getName(),filterTag.getDescription());
+            return new DtoTag(filterTag.getName(),filterTag.getDescription(), filterTag.getId());
         }).collect(Collectors.toList());
         System.out.println(tags);
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BACKEND_PATH } from "../../Config/Constants";
 import GetAPI from "../../Services/GetAPI";
 
@@ -6,10 +6,11 @@ const useTags = () => {
 
     const [tags, setTags] = useState([]);
 
+
 const createFormatTags = (response) => {
     return response.map((tag)=>{
         return {
-            id:crypto.randomUUID(),
+            id:tag.id,
             title:tag.name,
             description:tag.description
         }

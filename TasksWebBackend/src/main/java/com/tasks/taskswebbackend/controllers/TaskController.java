@@ -1,8 +1,7 @@
 package com.tasks.taskswebbackend.controllers;
 
 import com.tasks.taskswebbackend.dtos.DtoTask;
-import com.tasks.taskswebbackend.models.Tag;
-import com.tasks.taskswebbackend.models.Task;
+import com.tasks.taskswebbackend.models.*;
 import com.tasks.taskswebbackend.services.TagService;
 import com.tasks.taskswebbackend.services.TaskService;
 import com.tasks.taskswebbackend.services.UserService;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -121,6 +121,26 @@ public class TaskController {
 
         // con el username obtener el id del registro -> con el id obtener sus tasks
         return ResponseEntity.status(HttpStatus.OK).body(dtoTasksList);
+    }
+    @PostMapping("/mytasks")
+    public ResponseEntity<String> postUserTasks(@Valid @RequestBody DtoTask dtoTask){
+
+
+        System.out.println("adding Task by token");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        System.out.println("username:" + userName);
+        Optional<Long> userId = userService.getUserIdFromUserName(userName);
+        System.out.println(userId.get());
+
+        System.out.println("description: " + dtoTask);
+        Task task = new Task(dtoTask, userId.get());
+
+        taskService.save(task);
+
+        // con el username obtener el id del registro -> con el id obtener sus tasks
+        return ResponseEntity.status(HttpStatus.OK).body("Task saved");
     }
 
 
