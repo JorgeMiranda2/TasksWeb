@@ -67,7 +67,7 @@ const MyTasks = () => {
                 {task.title}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {task.state}
+                {task.state.name}
               </Typography>
               <Typography variant="body2">
                 Start Date: {convertDate(task.start)}

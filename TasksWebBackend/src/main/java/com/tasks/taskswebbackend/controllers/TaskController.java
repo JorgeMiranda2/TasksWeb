@@ -1,6 +1,7 @@
 package com.tasks.taskswebbackend.controllers;
 
 import com.tasks.taskswebbackend.dtos.DtoTask;
+import com.tasks.taskswebbackend.dtos.DtoTaskInput;
 import com.tasks.taskswebbackend.models.*;
 import com.tasks.taskswebbackend.services.TagService;
 import com.tasks.taskswebbackend.services.TaskService;
@@ -123,7 +124,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(dtoTasksList);
     }
     @PostMapping("/mytasks")
-    public ResponseEntity<String> postUserTasks(@Valid @RequestBody DtoTask dtoTask){
+    public ResponseEntity<String> postUserTasks(@Valid @RequestBody DtoTaskInput dtoTaskInput){
 
 
         System.out.println("adding Task by token");
@@ -134,8 +135,8 @@ public class TaskController {
         Optional<Long> userId = userService.getUserIdFromUserName(userName);
         System.out.println(userId.get());
 
-        System.out.println("description: " + dtoTask);
-        Task task = new Task(dtoTask, userId.get());
+        System.out.println("description: " + dtoTaskInput);
+        Task task = new Task(dtoTaskInput, userId.get());
 
         taskService.save(task);
 

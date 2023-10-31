@@ -25,8 +25,9 @@ useEffect(()=>{
   getTaskStates()
 },[])
     
-const handleAddTag = (tag) => {
-setTagsToAdd([...tagsToAdd, tag]);
+const handleAddTag = (id) => {
+setTagsToAdd([...tagsToAdd, id]);
+formik.setFieldValue('tags', [...formik.values.tags, id]); // Actualiza el campo 'tags' en formik
 console.log(tagsToAdd);
 }
 
@@ -50,7 +51,6 @@ const formik = useFormik({
     onSubmit: async (values) => {
       await sendTask(values);
       await updateTasks();
-  
      handleCloseModal();
 
     },
@@ -127,34 +127,42 @@ const formik = useFormik({
         </div>
      
       <label>Task state: </label>
-        <select name="taskState" id="taskState">
+        <select 
+        value={formik.values.taskState}
+        onChange={formik.handleChange} 
+        onBlur={formik.handleBlur}
+        name="taskState" 
+        id="taskState">
+          <option value="" disabled>Select a state</option>
          {taskStates.map((taskState)=>{
-          return <option key={taskState.id} title={taskState.description} value="xd">{taskState.name}</option>
+          return <option key={taskState.id} value={taskState.id} title={taskState.description} >{taskState.name} </option>
          })}
         </select>
+
         {formik.touched.taskState && formik.errors.taskState ? (
           <label className="error" style={{ color: 'red' }}>state error</label>
         ) : null}
 
        
         <label>Tags: </label>
-        <select name="tags"  id="tags">
+        <ul >
         {tags.map((tag)=>{
           return (
-           <option  value={tag.title} 
+            <li>
+           <button  value={tag.title} 
+           type="button"
+           onClick={()=> handleAddTag(tag.id)}
            style= {{color:"black"}} 
            key={tag.id} 
            title={tag.description}
            >
             {tag.title}
-            </option>
-         
+            </button>
+            </li>
           )
         })}
-      </select>
-      {formik.touched.tags && formik.errors.tags ? (
-          <label className="error" style={{ color: 'red' }}>state error</label>
-        ) : null}
+      </ul>
+     
 
 
 <Button type="submit"> Add New Task</Button>

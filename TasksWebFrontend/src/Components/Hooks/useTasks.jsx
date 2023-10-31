@@ -18,21 +18,23 @@ const useTasks = () => {
                 start:task.startDate,
                 end:task.endDate,
                 description:task.description,
-                state:task.taskStateName,
+                state:task.taskState,
                 tags:task.tags
             }
         })
     }
 
     const convertJsonToSend = (taskData) => {
+
+        console.log(taskData)
         
             return {
                 title:taskData.title,
                 description:taskData.description,
                 startDate:taskData.startDateTime,
                 endDate:taskData.endDateTime,
-                taskStateName:taskData.taskState,
-                tags:taskData.tags
+                taskStateId:taskData.taskState,
+                tagsId:taskData.tags
             }
         
     }

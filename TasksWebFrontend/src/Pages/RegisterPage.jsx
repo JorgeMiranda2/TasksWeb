@@ -18,6 +18,9 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import PostAPI from '../Services/PostAPI';
 import { BACKEND_PATH } from '../Config/Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import {login} from "../redux/AuthSlice";
+import useAuth from '../Components/Hooks/useAuth';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('First Name is required'),
@@ -28,6 +31,10 @@ const validationSchema = Yup.object().shape({
 });
 
 function RegisterPage() {
+
+  const {registerUser} = useAuth(); 
+  const dispatch = useDispatch();
+  const {auth} = useSelector(state=>state.auth)
   const initialValues = {
     name: '',
     lastName: '',
@@ -36,14 +43,8 @@ function RegisterPage() {
     password: '',
   };
 
-  const handleRegister = (values) => {
-    PostAPI(BACKEND_PATH + "/auth/register", values)
-    .then((userResponse) => {
-     if(userResponse){
-      localStorage.setItem("userSession", JSON.stringify(userLogin));
-       window.location.href="/";
-     }
-    })
+  const handleRegister = async (values) => {
+  await registerUser(values);
   };
 
   const defaultTheme = createTheme();

@@ -69,6 +69,7 @@ public class AuthService {
 
         return DtoResponseLogin.builder()
                 .token(jwtService.getToken(user))
+                .userName(dtoRegister.getUserName())
                 .build();
     }
 

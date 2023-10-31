@@ -46,6 +46,9 @@ public class Tag {
         this.description = description;
         this.state = state;
     }
+    public Tag(Long id){
+        this.id = id;
+    }
 
     //Getters and Setters -> using Lombok
 

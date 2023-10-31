@@ -1,15 +1,14 @@
 package com.tasks.taskswebbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tasks.taskswebbackend.dtos.DtoTask;
+import com.tasks.taskswebbackend.dtos.DtoTaskInput;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.swing.text.html.Option;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -55,15 +54,18 @@ public class Task {
     //Constructors
     public Task(){}
 
-    public Task(DtoTask dtoTask, Long id){
+    public Task(DtoTaskInput dtoTaskInput, Long id){
         this.user = new User(id);
-        this.title = dtoTask.getTitle();
-        this.description = dtoTask.getDescription();
-        this.startDate = dtoTask.getStartDate();
-        this.endDate = dtoTask.getEndDate();
+        this.title = dtoTaskInput.getTitle();
+        this.description = dtoTaskInput.getDescription();
+        this.startDate = dtoTaskInput.getStartDate();
+        this.endDate = dtoTaskInput.getEndDate();
         this.state = new State(1L);
-        this.taskState = new TaskState(1L);
-        this.tags = new ArrayList<>();
+        this.taskState = new TaskState(dtoTaskInput.getTaskStateId());
+        System.out.println("tags: " + dtoTaskInput.getTagsId());
+        this.tags = dtoTaskInput.getTagsId().stream().map((tagId)->{
+            return new Tag(tagId);
+        }).collect(Collectors.toList());
 
     }
 
