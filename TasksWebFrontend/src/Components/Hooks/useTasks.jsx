@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BACKEND_PATH } from "../../Config/Constants";
 import GetAPI from "../../Services/GetAPI";
 import PostAPI from "../../Services/PostAPI";
+import DeleteAPI from "../../Services/DeleteAPI";
 
 const useTasks = () => {
 
@@ -13,7 +14,7 @@ const useTasks = () => {
     const createFormatTasks = (backendTasks) => {
         return backendTasks.map((task)=>{
             return {
-                id: crypto.randomUUID(),
+                id: task.id,
                 title:task.title,
                 start:task.startDate,
                 end:task.endDate,
@@ -40,7 +41,16 @@ const useTasks = () => {
     }
 
 
-    
+    const removeTask = async (id) => {
+    try {
+    const response = await DeleteAPI(BACKEND_PATH + SPECIFIC_PATH + `/${id}`);
+    await getTasks();
+    return response;
+    } catch(error){
+        console.log("error deleting task in the hook: " + error);
+        return null;
+    }
+    }
 
     const getTasks = async () => {
         try{
@@ -60,7 +70,7 @@ const useTasks = () => {
     };
 
 
-    return {tasks , getTasks, sendTask}
+    return {tasks , getTasks, sendTask, removeTask}
 
     
 }

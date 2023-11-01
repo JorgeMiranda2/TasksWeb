@@ -1,22 +1,9 @@
 import axios from "axios";
+import getRequestConfig from "../Helpers/GetRequestConfig";
 
 const GetAPI = async (url) => {
-    let config = {
-    };
-    const StringUserSession = window.localStorage.getItem("userSession");
 
-    if(StringUserSession){
-        const user = JSON.parse(StringUserSession);
-   
-        config = {
-            headers:{
-                Authorization:`Bearer ${user?.token}`
-            }
-        }
-
-    
-    }
-
+    const config = getRequestConfig();
     try{   
         const response = await axios.get(url,config);
         console.log("Doing Get Request");

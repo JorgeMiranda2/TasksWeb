@@ -18,5 +18,10 @@
     "method": "POST",
     "route": "/api/tag",
     "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "DELETE",
+    "route": "/api/mytasks/{id}",
+    "roles": ["ADMIN","USER"]
   }
 ]

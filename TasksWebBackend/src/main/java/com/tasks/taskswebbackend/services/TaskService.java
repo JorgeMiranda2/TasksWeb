@@ -45,6 +45,11 @@ public class TaskService implements ITaskService {
         return taskRepo.getTasksByUserId(id);
     }
 
+    @Override
+    public Optional<Long> getUserNameIdByTaskId(Long id){
+        return taskRepo.getUserNameIdByTaskId(id);
+    }
+
 
 
 }

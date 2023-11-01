@@ -1,30 +1,23 @@
 import { Box, Button } from "@mui/material";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import useTags from "../Hooks/useTags";
+
 import "../../Css/Components/AddTaskModal.css";
-import useTaskStates from "../Hooks/useTaskStates";
-import { useEffect, useState } from "react";
+
 import useTasks from "../Hooks/useTasks";
+import { useEffect, useState } from "react";
 
 
-const AddTaskModal = ( {handleCloseModal , updateTasks}) => {
+
+const AddTaskModal = ( {handleCloseModal , updateTasks , taskStates, tags}) => {
 
 //Custom Hooks
-const {tags, getTags} = useTags();
-const {taskStates, getTaskStates} = useTaskStates();
+
 const {sendTask} = useTasks();
 
 //Hooks
 const [tagsToAdd, setTagsToAdd] = useState([]);
 
-//UseEffects
-
-useEffect(()=>{
-  getTags();
-  getTaskStates()
-},[])
-    
 const handleAddTag = (id) => {
 setTagsToAdd([...tagsToAdd, id]);
 formik.setFieldValue('tags', [...formik.values.tags, id]); // Actualiza el campo 'tags' en formik
@@ -46,6 +39,7 @@ const formik = useFormik({
       endDateTime: Yup.date().required('Date is obligatory'),
       title:Yup.string().required('title is obligatory'),
       description:Yup.string().required('title is obligatory'),
+      taskState:Yup.string().required('need select one'),
       tags: Yup.array(),
     }),
     onSubmit: async (values) => {

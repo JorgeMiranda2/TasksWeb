@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 @Data
 public class DtoTask {
+ private Long id;
  private Date startDate;
  private Date endDate;
  private String title;
@@ -19,6 +20,7 @@ public class DtoTask {
 
 public DtoTask(){}
     public DtoTask(Task task){
+     this.id = task.getId();
      this.startDate = task.getStartDate();
      this.endDate = task.getEndDate();
      this.title = task.getTitle();

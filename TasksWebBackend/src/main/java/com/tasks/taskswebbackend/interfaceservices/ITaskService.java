@@ -13,6 +13,8 @@ public interface ITaskService {
     public Long save(Task task);
     public void delete(Task task);
 
+    public Optional<Long> getUserNameIdByTaskId(Long id);
+
     List<Task> getTasksByUserId(Long id);
 
 }

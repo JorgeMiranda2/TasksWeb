@@ -1,18 +1,8 @@
 import axios from "axios";
-
+import getRequestConfig from "../Helpers/GetRequestConfig";
 const PostAPI = async (url , info) => {
-    let config = {};
-    const StringUserSession = window.localStorage.getItem("userSession");
-    if(StringUserSession){
-        const user = JSON.parse(StringUserSession);
-        config = {
-            headers:{
-                Authorization:`Bearer ${user?.token}`
-            }
-        }
-      
-    
-    }
+
+const config = getRequestConfig();
 
     try{   
         const response = await axios.post(url,info,config);

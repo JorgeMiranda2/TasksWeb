@@ -19,6 +19,8 @@ const useAuth = () => {
          }
         })
     }
+
+
     return {registerUser};
 }
  
