@@ -1,8 +1,10 @@
 package com.tasks.taskswebbackend.repositories;
 
+import com.tasks.taskswebbackend.dtos.DtoTaskInput;
 import com.tasks.taskswebbackend.models.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +18,6 @@ public interface ITaskRepo extends JpaRepository<Task,Long> {
 
 @Query(value = "SELECT user_id FROM task WHERE id=?1",nativeQuery=true)
 public Optional<Long> getUserNameIdByTaskId(Long id);
+
 
 }

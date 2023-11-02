@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardActions, CardContent, Modal, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import AddTaskModal from "./AddTaskModal";
 import useTasks from "../Hooks/useTasks";
@@ -12,8 +12,9 @@ const MyTasks = () => {
   const {getTasks, tasks, removeTask} = useTasks();
   const {tags, getTags} = useTags();
   const {taskStates, getTaskStates} = useTaskStates();
+  const [openModal, setOpenModal] = useState(false);
 
-    const [openModal, setOpenModal] = useState(false);
+  const [modalData,setModalData] = useState(null);
 
 //UseEffects
 
@@ -23,10 +24,22 @@ useEffect(()=>{
   getTasks();
 },[])
     
+const reloadTasks = () =>{
+  getTasks();
+}
+
+const handleEditTask = (task) => {
+  setModalData(task);
+  setOpenModal(true);
+}
+
+const handleAddTask = () => {
+  setModalData(null);
+  setOpenModal(true);
+}
 
   const updateTasks = async  () => {
     console.log("doing updateTasks")
-     await getTasks();
   };
 
 
@@ -54,6 +67,8 @@ useEffect(()=>{
   aria-describedby="modal-modal-description"
 >
   <AddTaskModal 
+  reloadTasks={reloadTasks}
+  modalData={modalData}
   updateTasks={updateTasks}
   handleCloseModal={handleCloseModal}
   taskStates={taskStates}
@@ -75,7 +90,7 @@ useEffect(()=>{
               </Typography>
 
               <div className="task-options">
-              <button className="edit" >Edit</button>
+              <button className="edit" onClick={()=>handleEditTask(task)}>Edit</button>
               <button  onClick={()=>removeTask(task.id)}  className="remove">Remove</button>
               </div>
 
@@ -112,7 +127,7 @@ useEffect(()=>{
       </ul>
       </Box>
       <Button  
-        onClick={()=> handleOpenModal()}
+        onClick={handleAddTask}
       >add task</Button>
       <Typography variant="h2">Tags:</Typography>
     

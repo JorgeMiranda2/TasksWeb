@@ -23,5 +23,10 @@
     "method": "DELETE",
     "route": "/api/mytasks/{id}",
     "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "PUT",
+    "route": "/api/mytasks/{id}",
+    "roles": ["ADMIN","USER"]
   }
 ]

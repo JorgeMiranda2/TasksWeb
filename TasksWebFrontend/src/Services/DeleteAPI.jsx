@@ -12,7 +12,7 @@ console.log("Doing Delete Request");
 return response.data;
 
 } catch(error){
-    console.log("error tryind to delete: " + error);
+    console.log("error trying to delete: " + error);
     return null;
 }
 

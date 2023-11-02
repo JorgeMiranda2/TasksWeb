@@ -69,6 +69,22 @@ public class Task {
 
     }
 
+    public Task(DtoTaskInput dtoTaskInput, Long id, Long taskId){
+        this.user = new User(id);
+        this.title = dtoTaskInput.getTitle();
+        this.description = dtoTaskInput.getDescription();
+        this.startDate = dtoTaskInput.getStartDate();
+        this.endDate = dtoTaskInput.getEndDate();
+        this.state = new State(1L);
+        this.id = taskId;
+        this.taskState = new TaskState(dtoTaskInput.getTaskStateId());
+        System.out.println("tags: " + dtoTaskInput.getTagsId());
+        this.tags = dtoTaskInput.getTagsId().stream().map((tagId)->{
+            return new Tag(tagId);
+        }).collect(Collectors.toList());
+
+    }
+
     public Task(Long id, String title, String description, Date startDate, Date endDate, State state) {
         this.id = id;
         this.title = title;
@@ -77,6 +93,7 @@ public class Task {
         this.endDate = endDate;
         this.state = state;
     }
+
 
     //Getters and Setters -> using Lombok
 

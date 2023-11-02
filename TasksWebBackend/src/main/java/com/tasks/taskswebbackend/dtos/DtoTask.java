@@ -29,6 +29,7 @@ public DtoTask(){}
      this.tags = task.getTags().stream().map((tag) -> {
          return new DtoTag(tag.getName(), tag.getDescription(), tag.getId());
      }).collect(Collectors.toList());
-
  }
+
+
 }

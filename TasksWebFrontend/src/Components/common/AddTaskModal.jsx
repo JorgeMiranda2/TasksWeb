@@ -9,29 +9,38 @@ import { useEffect, useState } from "react";
 
 
 
-const AddTaskModal = ( {handleCloseModal , updateTasks , taskStates, tags}) => {
+const AddTaskModal = ( {handleCloseModal , taskStates, tags, modalData , reloadTasks}) => {
 
 //Custom Hooks
-
-const {sendTask} = useTasks();
+const {sendTask, updateTask} = useTasks();
 
 //Hooks
-const [tagsToAdd, setTagsToAdd] = useState([]);
+const [tagsIdToAdd, setTagsIdToAdd] = useState([]);
+
+
+useEffect(()=>{
+  if(modalData){
+    const tagsId = modalData.tags.map((tag)=>{return tag.id})
+    console.log(tagsId);
+    setTagsIdToAdd(tagsId);
+  }
+},[modalData])
+
 
 const handleAddTag = (id) => {
-setTagsToAdd([...tagsToAdd, id]);
+setTagsIdToAdd([...tagsIdToAdd, id]);
 formik.setFieldValue('tags', [...formik.values.tags, id]); // Actualiza el campo 'tags' en formik
-console.log(tagsToAdd);
+console.log(tagsIdToAdd);
 }
 
 const formik = useFormik({
     initialValues: {
-      startDateTime: '',
-      endDateTime: '',
-      title:'',
-      description:'',
-      taskState:'',
-      tags:tagsToAdd,
+      startDateTime: modalData?.start || '',
+      endDateTime: modalData?.end || '',
+      title: modalData?.title||'',
+      description: modalData?.description||'',
+      taskState:modalData?.state.id|| '',
+      tags:modalData.tags.map((tag)=>tag.id) || [] ,
 
     },
     validationSchema: Yup.object({
@@ -43,8 +52,10 @@ const formik = useFormik({
       tags: Yup.array(),
     }),
     onSubmit: async (values) => {
-      await sendTask(values);
-      await updateTasks();
+      console.log("xd")
+      console.log(tagsIdToAdd);
+      modalData ? await updateTask(modalData.id,  values) : await sendTask(values);
+      reloadTasks();
      handleCloseModal();
 
     },
@@ -93,7 +104,7 @@ const formik = useFormik({
           type="datetime-local"
           id="startDateTime"
           name="startDateTime"
-          value={formik.values.startDateTime}
+          value={formik.values.startDateTime }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
@@ -142,7 +153,7 @@ const formik = useFormik({
         <ul >
         {tags.map((tag)=>{
           return (
-            <li>
+            <li key={tag.id}>
            <button  value={tag.title} 
            type="button"
            onClick={()=> handleAddTag(tag.id)}

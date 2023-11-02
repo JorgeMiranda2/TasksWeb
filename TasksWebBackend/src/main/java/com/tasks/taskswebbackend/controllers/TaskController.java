@@ -146,7 +146,7 @@ public class TaskController {
 
 
     @DeleteMapping("/mytasks/{id}")
-    public ResponseEntity<String> postUserTasks(@Valid @PathVariable Long id){
+    public ResponseEntity<String> DeleteUserTasks(@Valid @PathVariable Long id){
 
         System.out.println("deleting Task by token");
 
@@ -170,6 +170,35 @@ public class TaskController {
         // con el username obtener el id del registro -> con el id obtener sus tasks
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Something go wrong");
     }
+
+    @PutMapping("/mytasks/{id}")
+    public ResponseEntity<String> updateUserTasks(@Valid @PathVariable Long id ,@RequestBody DtoTaskInput dtoTaskInput){
+
+        System.out.println("updating Task by id");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        System.out.println("username:" + userName);
+        Optional<Long> userId = userService.getUserIdFromUserName(userName);
+        System.out.println(userId.get());
+        Optional<Long> userIdByTask = taskService.getUserNameIdByTaskId(id);
+        if(userIdByTask.isPresent() && userId.isPresent()){
+            if(userIdByTask.get().equals(userId.get())){
+                //Optional<Long> = taskService.getStateIdByUserId(userId.get()); for saving with real state
+                Task task = new Task(dtoTaskInput, userId.get(), id);
+                taskService.save(task);
+                return ResponseEntity.status(HttpStatus.OK).body("task Updated");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("update Task forbidden, is your task?");
+            }
+        }
+
+
+        // con el username obtener el id del registro -> con el id obtener sus tasks
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Something go wrong");
+    }
+
+
     @PutMapping("/task/{id}")
     public ResponseEntity<String> updateUser(@Valid @PathVariable Long id, @RequestBody Task task){
         Optional<Task> isTask = taskService.getTaskId(id);
