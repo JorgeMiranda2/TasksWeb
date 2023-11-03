@@ -1,30 +1,81 @@
-.dates{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-
-}
-
-label{
-    display: block;
-    text-align: center;
-    align-self: center;
-}
-.error{
-    display: block;
-}
-
-
-textarea{
-    margin-bottom: 10px;
-}
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Ajusta el ancho del modal */
+    max-width: 600px; /* Ancho máximo del modal */
+    background-color: white; /* En CSS se utiliza "background-color" en lugar de "bgcolor" */
+    border: 2px solid #000;
+    border-radius: 8px;
+    box-shadow: 0px 0px 24px; /* Se debe especificar el desplazamiento en píxeles en lugar de solo el número */
+    padding: 16px; /* Espaciado interno equivalente a "p: 4" */
+  }
 .taskForm{
     display: flex;
     color: black;
     flex-direction: column;
     justify-content: space-between;
     flex-wrap: nowrap;
-    align-items: center;
+
+    gap:16px;
 }
+
+.dates{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+}
+
+label{
+    display: block;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+input, textarea, select{
+    border: 1px solid #ccc; 
+    border-radius: 3px; 
+    height: 20px;
+    margin-left: 8px;
+}
+.multi-select{
+    margin-left: 8px;
+}
+
+
+  div label:last-child {
+    color: red; /* Color de texto rojo para indicar un error */
+    margin-top: 5px; /* Separación desde el input */
+  }
+
+  div label:first-child {
+    font-weight: bold;
+  }
+
+  .buttons-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  @media screen and (max-width: 620px) {
+    /* Agrega tus estilos aquí */
+    input, textarea, select, .multi-select{
+
+        margin-left: 0px;
+    }
+
+    .input-container{
+        flex-direction: column;
+    }
+  }
