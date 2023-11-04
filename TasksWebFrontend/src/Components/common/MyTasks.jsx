@@ -6,6 +6,7 @@ import useTasks from "../Hooks/useTasks";
 import useTags from "../Hooks/useTags";
 import useTaskStates from "../Hooks/useTaskStates";
 import "../../Css/Components/MyTasks.css";
+import AddIcon from '@mui/icons-material/Add';
 
 const MyTasks = () => {
 
@@ -75,14 +76,17 @@ const handleAddTask = () => {
   tags={tags} 
    />
 </Modal>
-        <h2  style = {{margin:"8px"}}>My tasks:</h2>
+        <Typography  variant="h3" style = {{margin:"8px"}}> My tasks:
+        {tasks.length==0 && <Typography variant="h6">You have not tasks</Typography>}  
+        </Typography>
+
+
+
         <Box className="main">
         <ul className="tasks">
         {tasks.map((task, index) => (
-          <li key={task.id}className="task" >
-          <Card
-           
-  
+          <li key={task.id} className="task" >
+          <Card className="card"
           >
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -123,13 +127,19 @@ const handleAddTask = () => {
           </Card>
           </li>
         ))}
-      
-      </ul>
-      </Box>
-      <Button  
+        <li style={{display:"flex", justifyContent:"center", alignItems:"center"}} >
+          
+       <Button  
+      variant="contained"
+      endIcon={<AddIcon />}
         onClick={handleAddTask}
-      >add task</Button>
-      <Typography variant="h2">Tags:</Typography>
+      >add new task</Button>
+      </li>
+      </ul>
+    
+      </Box>
+    
+
     
       </Box>
      );

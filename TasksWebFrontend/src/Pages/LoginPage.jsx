@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 
 function LoginPage() {
   const {auth} = useSelector(state => state.auth);
+  const [error, setError] = React.useState(false);
   const defaultTheme = createTheme();
 
   const validationSchema = yup.object({
@@ -28,12 +29,14 @@ function LoginPage() {
     password: yup.string().required('Password is required'),
   });
 
-  const handleLogin = (values) => {
-    PostAPI(BACKEND_PATH + "/auth/login", values)
+  const handleLogin =  (values) => {
+   PostAPI(BACKEND_PATH + "/auth/login", values)
     .then((userLogin) => {
      if(userLogin){
       window.location.href="/";
        localStorage.setItem("userSession", JSON.stringify(userLogin));
+     } else {
+      setError(true);
      }
     })
   }
@@ -108,6 +111,7 @@ function LoginPage() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && <label style={{color:"red", display:"center",justifySelf:"center"}}>Username or password wrong</label>}
             <Button
               type="submit"
               fullWidth

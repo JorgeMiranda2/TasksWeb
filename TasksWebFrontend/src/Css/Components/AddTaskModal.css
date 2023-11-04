@@ -11,6 +11,9 @@
     box-shadow: 0px 0px 24px; /* Se debe especificar el desplazamiento en píxeles en lugar de solo el número */
     padding: 16px; /* Espaciado interno equivalente a "p: 4" */
   }
+  .card{
+    background: linear-gradient(to bottom, #E0F4FF, #97caf3);
+  }
 .taskForm{
     display: flex;
     color: black;
@@ -68,7 +71,7 @@ input, textarea, select{
     margin-top: 16px;
   }
 
-  @media screen and (max-width: 620px) {
+  @media screen and (max-width: 630px) {
     /* Agrega tus estilos aquí */
     input, textarea, select, .multi-select{
 

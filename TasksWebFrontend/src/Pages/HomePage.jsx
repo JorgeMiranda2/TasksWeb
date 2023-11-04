@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import MyTasks from "../Components/common/MyTasks";
 import {useSelector, useDispatch } from "react-redux";
 
@@ -12,7 +12,11 @@ const AddTask = () => {
 }
     return ( 
         <Box>
-         {auth &&  <MyTasks/> }
+         {auth ?  <MyTasks/> : 
+         <Box style={{display:"flex" , flexDirection:"column" , justifyContent:"center", alignItems:"center", marginTop:"30px"}}>
+            <Typography variant="h5">Login or register to create and see your tasks!</Typography>
+         </Box>
+         }
  
         </Box>
      );
