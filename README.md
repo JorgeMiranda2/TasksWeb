@@ -25,12 +25,7 @@ The application uses MySQL as its database to store user information and reminde
 Getting Started
 Follow the steps below to set up and run the application locally:
 
-Clone the Repository:
-
-bash
-Copy code
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+Clone the Repository
 
 # Frontend Setup:
 
