@@ -1,9 +1,7 @@
 # TasksWeb
-
-Project Title
 User Registration and Note Reminder Application
 
-Overview
+# Overview
 This project is an application that allows users to register and create reminder notes associated with their accounts. Users can manage these notes by editing or deleting them based on their preferences.
 
 Technologies Used
@@ -33,17 +31,16 @@ bash
 Copy code
 git clone https://github.com/your-username/your-repository.git
 cd your-repository
-Frontend Setup:
 
-bash
-Copy code
+# Frontend Setup:
+
+Copy code in Bash
 cd frontend
 npm install
 npm run dev
 Backend Setup:
 
-bash
-Copy code
+Copy code in Bash
 cd backend
 ./mvnw spring-boot:run
 Access the Application:
@@ -66,6 +63,6 @@ Yup: Link to Yup Documentation
 License
 This project is licensed under the MIT License. Feel free to use, modify, and distribute the code as per the license terms.
 
-
-
+# Notes
+in the table profile of the database is necessary create at least 2 register with id = 1 for user and id = 2 for admin for the spring security to work
 
