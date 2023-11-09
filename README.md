@@ -29,37 +29,37 @@ Clone the Repository
 
 # Frontend Setup:
 
-Copy code in Bash
+Copy code in Bash:
+
 cd frontend
+
 npm install
+
 npm run dev
 
  # Backend Setup:
 
-Copy code in Bash
+Copy code in Bash:
+
 cd backend
+
 ./mvnw spring-boot:run
+
 Access the Application:
+
 Open your web browser and go to http://localhost:3000 to access the application.
 
 # Features
 User Registration: Allows users to register accounts.
+
 Note Creation: Users can create reminder notes associated with their accounts.
+
 Note Management: Users can edit or delete existing notes.
-Dependencies
-React: Link to React Documentation
-Vite: Link to Vite Documentation
-Redux: Link to Redux Documentation
-Material UI: Link to Material UI Documentation
-Spring Boot: Link to Spring Boot Documentation
-Hibernate: Link to Hibernate Documentation
-Lombok: Link to Lombok Documentation
-Formik: Link to Formik Documentation
-Yup: Link to Yup Documentation
+
 
 # License
 This project is licensed under the MIT License. Feel free to use, modify, and distribute the code as per the license terms.
 
 # Notes
-in the table profile of the database is necessary create at least 2 register with id = 1 for user and id = 2 for admin for the spring security to work
+In the table profile of the database is necessary create at least 2 register with id = 1 for user and id = 2 for admin for the spring security to work
 
