@@ -33,7 +33,8 @@ Copy code in Bash
 cd frontend
 npm install
 npm run dev
-Backend Setup:
+
+ # Backend Setup:
 
 Copy code in Bash
 cd backend
@@ -41,7 +42,7 @@ cd backend
 Access the Application:
 Open your web browser and go to http://localhost:3000 to access the application.
 
-Features
+# Features
 User Registration: Allows users to register accounts.
 Note Creation: Users can create reminder notes associated with their accounts.
 Note Management: Users can edit or delete existing notes.
@@ -55,7 +56,8 @@ Hibernate: Link to Hibernate Documentation
 Lombok: Link to Lombok Documentation
 Formik: Link to Formik Documentation
 Yup: Link to Yup Documentation
-License
+
+# License
 This project is licensed under the MIT License. Feel free to use, modify, and distribute the code as per the license terms.
 
 # Notes
