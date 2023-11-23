@@ -14,28 +14,28 @@ import java.util.List;
 public class Profile {
 
     //Fields
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Long id;
-    @Column(name="name", nullable = false,unique = false, length=16)
-    private String name;
-    @Column(name="role", nullable = false,unique = false, length=16)
-    private String role;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name="id")
+        private Long id;
+        @Column(name="name", nullable = false,unique = false, length=16)
+        private String name;
+        @Column(name="role", nullable = false,unique = false, length=16)
+        private String role;
 
-    //Relations
-    @ManyToOne
-    @JoinColumn(name="state_id")
-    private State state;
-
-
-    @OneToMany(mappedBy = "profile")
-    @JsonBackReference
-    private List<User> users;
+        //Relations
+        @ManyToOne
+        @JoinColumn(name="state_id")
+        private State state;
 
 
-    //constructors
-    public Profile(){}
+        @OneToMany(mappedBy = "profile")
+        @JsonBackReference
+        private List<User> users;
+
+
+        //constructors
+        public Profile(){}
 
     public Profile(Long id, String name, String role, State state) {
         this.id = id;
